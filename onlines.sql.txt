@@ -1,0 +1,146 @@
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.42 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database onlinestore;
+Query OK, 1 row affected (0.12 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| employe            |
+| information_schema |
+| mysql              |
+| onlinestore        |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.10 sec)
+
+mysql> use onlinestore;
+Database changed
+mysql> create table customer(cust_id int primary key,cust_name varchar(10),email varchar(20),address varchar(50),city varchar(20),phone_no varchar(15),pin_code varchar(10));
+Query OK, 0 rows affected (0.17 sec)
+
+mysql> insert into customer values(101,'yash','gsdh@gmail.com','dadar','mumbai',2436891029,110022);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into customer values(102,'harsh','gsjh@gmail.com','mg road','pune',2436364029,110312),(103,'karan','kkdh@gmail.com','peth road','nashik',3748291029,110111),(104,'vikas','vikh@gmail.com','fashion street','mumbai',2436800101,155022),(105,'om','om@gmail.com','fc road','pune',2432000029,115522);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> create table product(prod_id varchar(5) primary key not null,prod_name varchar(20) not null,category varchar(20) not null,sub_category varchar(20) not null,original_price varchar(20) not null,selling_price varchar(20) not null,stock varchar(10) not null);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into product values('p101','laptop','electronics','computer',10000,9000,50),('p102','smart phone','electronics','mobiles',6000,5500,100),('p103','headphones','accessories','audio',2000,1500,200),('p104','tablet','electronics','computers',8000,7000,75),('p105','smartwatch','accessories','wearables',2000,1500,150);
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> create table `order`(ord_id varchar(5) primary key,cust_id int,prod_id varchar(10),quantity int,total_price int,order_status varchar(20),order_date date,payment_mode varchar(20),foreign key(cust_id) references customer(cust_id),foreign key (prod_id) references product(prod_id));
+Query OK, 0 rows affected (0.20 sec)
+
+mysql> insert into `order` values('o101',101,'p101',1, 9500, 'Shipped', '2025/07/10','Credit Card'),('o102',102,'p102',2, 7500, 'processing', '2025/03/01','gpay'),('o103',103,'p103',3, 1000, 'delivered', '2024/12/11','UPI'),('o104',104,'p104',1, 8000, 'cancelled', '2022/02/11','debit card'),('o105',105,'p105',2, 9500, 'shipped', '2023/06/07','Credit Card');
+Query OK, 5 rows affected, 5 warnings (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 5
+
+mysql> desc customer;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| cust_id   | int         | NO   | PRI | NULL    |       |
+| cust_name | varchar(10) | YES  |     | NULL    |       |
+| email     | varchar(20) | YES  |     | NULL    |       |
+| address   | varchar(50) | YES  |     | NULL    |       |
+| city      | varchar(20) | YES  |     | NULL    |       |
+| phone_no  | varchar(15) | YES  |     | NULL    |       |
+| pin_code  | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.07 sec)
+
+mysql> select *from customer;
++---------+-----------+----------------+----------------+--------+------------+----------+
+| cust_id | cust_name | email          | address        | city   | phone_no   | pin_code |
++---------+-----------+----------------+----------------+--------+------------+----------+
+|     101 | yash      | gsdh@gmail.com | dadar          | mumbai | 2436891029 | 110022   |
+|     102 | harsh     | gsjh@gmail.com | mg road        | pune   | 2436364029 | 110312   |
+|     103 | karan     | kkdh@gmail.com | peth road      | nashik | 3748291029 | 110111   |
+|     104 | vikas     | vikh@gmail.com | fashion street | mumbai | 2436800101 | 155022   |
+|     105 | om        | om@gmail.com   | fc road        | pune   | 2432000029 | 115522   |
++---------+-----------+----------------+----------------+--------+------------+----------+
+5 rows in set (0.06 sec)
+
+mysql> desc product;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| prod_id        | varchar(5)  | NO   | PRI | NULL    |       |
+| prod_name      | varchar(20) | NO   |     | NULL    |       |
+| category       | varchar(20) | NO   |     | NULL    |       |
+| sub_category   | varchar(20) | NO   |     | NULL    |       |
+| original_price | varchar(20) | NO   |     | NULL    |       |
+| selling_price  | varchar(20) | NO   |     | NULL    |       |
+| stock          | varchar(10) | NO   |     | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+7 rows in set (0.03 sec)
+
+mysql> select *from product;
++---------+-------------+-------------+--------------+----------------+---------------+-------+
+| prod_id | prod_name   | category    | sub_category | original_price | selling_price | stock |
++---------+-------------+-------------+--------------+----------------+---------------+-------+
+| p101    | laptop      | electronics | computer     | 10000          | 9000          | 50    |
+| p102    | smart phone | electronics | mobiles      | 6000           | 5500          | 100   |
+| p103    | headphones  | accessories | audio        | 2000           | 1500          | 200   |
+| p104    | tablet      | electronics | computers    | 8000           | 7000          | 75    |
+| p105    | smartwatch  | accessories | wearables    | 2000           | 1500          | 150   |
++---------+-------------+-------------+--------------+----------------+---------------+-------+
+5 rows in set (0.00 sec)
+
+mysql> desc `order`;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| ord_id       | varchar(5)  | NO   | PRI | NULL    |       |
+| cust_id      | int         | YES  | MUL | NULL    |       |
+| prod_id      | varchar(10) | YES  | MUL | NULL    |       |
+| quantity     | int         | YES  |     | NULL    |       |
+| total_price  | int         | YES  |     | NULL    |       |
+| order_status | varchar(20) | YES  |     | NULL    |       |
+| order_date   | date        | YES  |     | NULL    |       |
+| payment_mode | varchar(20) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select *from `order`;
++--------+---------+---------+----------+-------------+--------------+------------+--------------+
+| ord_id | cust_id | prod_id | quantity | total_price | order_status | order_date | payment_mode |
++--------+---------+---------+----------+-------------+--------------+------------+--------------+
+| o101   |     101 | p101    |        1 |        9500 | Shipped      | 2025-07-10 | Credit Card  |
+| o102   |     102 | p102    |        2 |        7500 | processing   | 2025-03-01 | gpay         |
+| o103   |     103 | p103    |        3 |        1000 | delivered    | 2024-12-11 | UPI          |
+| o104   |     104 | p104    |        1 |        8000 | cancelled    | 2022-02-11 | debit card   |
+| o105   |     105 | p105    |        2 |        9500 | shipped      | 2023-06-07 | Credit Card  |
++--------+---------+---------+----------+-------------+--------------+------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
